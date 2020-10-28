@@ -1,4 +1,3 @@
-DefineAndAccessDatabase.md
 # [Define and Access the Database](https://flask.palletsprojects.com/en/1.1.x/tutorial/database/)
 
 The application will use a SQLite database to store users and posts. 
