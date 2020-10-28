@@ -85,3 +85,76 @@ CREATE TABLE post (
   FOREIGN KEY (author_id) REFERENCES user (id)
 );
 ```
+
+Add the Python functions that will run these SQL commands to the db.py file:
+
+flaskr/`db.py`
+```
+def init_db():
+    db = get_db()
+
+    with current_app.open_resource('schema.sql') as f:
+        db.executescript(f.read().decode('utf8'))
+
+
+@click.command('init-db')
+@with_appcontext
+def init_db_command():
+    """Clear the existing data and create new tables."""
+    init_db()
+    click.echo('Initialized the database.')
+```
+
+`open_resource()` opens a file relative to the `flaskr` package, 
+which is useful since you won’t necessarily know where that location is when deploying the application later. 
+`get_db` returns a database connection, which is used to execute the commands read from the file.
+
+`click.command()` defines a command line command called `init-db` that calls the `init_db` function and shows a success message to the user. 
+You can read Command Line Interface to learn more about writing commands.
+
+### Register with the Application
+The `close_db` and `init_db_command` functions need to be registered with the application instance; 
+otherwise, they won’t be used by the application.  
+However, since you’re using a factory function, that instance isn’t available when writing the functions. 
+Instead, write a function that takes an application and does the registration.
+
+flaskr/`db.py`
+```
+def init_app(app):
+    app.teardown_appcontext(close_db)
+    app.cli.add_command(init_db_command)
+```
+`app.teardown_appcontext()` tells Flask to call that function **when cleaning up after returning the response**.
+
+`app.cli.add_command()` adds a new command that can be called with the flask command.
+
+Import and call this function from the factory. Place the new code at the end of the factory function before returning the app.
+flaskr/`__init__.py`
+```
+def create_app():
+    app = ...
+    # existing code omitted
+
+    from . import db
+    db.init_db(app)
+
+    return app
+```
+
+### Initialize the Database File
+Now that `init-db` has been registered with the app, 
+it can be called using the flask command, similar to the run command from the previous page.
+
+---
+**Note**  
+If you’re still running the server from the previous page, you can either stop the server, or run this command in a new terminal.   
+If you use a new terminal, remember to change to your project directory and activate the env as described in Activate the environment.   
+You’ll also need to set `FLASK_APP` and `FLASK_ENV` as shown on the previous page.
+---
+
+Run the init-db command:
+```bash
+$ flask init-db
+Initialized the database.
+```
+There will now be a `flaskr.sqlite` file in the instance folder in your project.
