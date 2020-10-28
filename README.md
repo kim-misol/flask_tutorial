@@ -11,14 +11,6 @@ $ git clone https://github.com/kim-misol/flask_tutorial.git
 $ cd flask-tutorial
 ```
 
-## Installation
-
-Install required packages in requirements.txt using pip.
-
-```bash
-pip install -r requirements.txt
-```
-
 ## Virtualenv modules installation 
 Unix based systems
 
@@ -32,4 +24,12 @@ Windows based systems
 ```bash
 $ virtualenv --no-site-packages env
 $ .\env\Scripts\activate
+```
+
+## Installation
+
+Install required packages in requirements.txt using pip.
+
+```bash
+pip install -r requirements.txt
 ```
