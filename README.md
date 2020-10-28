@@ -33,3 +33,9 @@ Install required packages in requirements.txt using pip.
 ```bash
 pip install -r requirements.txt
 ```
+
+## Tutorial Category
+The descriptions for tutorial is in categories directory 
+1. Layout
+2. Application Setup
+3. Define and Access the Database
