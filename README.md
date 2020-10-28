@@ -7,7 +7,7 @@ This tutorial will walk you through creating a basic blog application called Fla
 ## Clone the sources
 
 ```bash
-$ git clone https://github.com/app-generator/flask-tutorial.git
+$ git clone https://github.com/kim-misol/flask_tutorial.git
 $ cd flask-tutorial
 ```
 
