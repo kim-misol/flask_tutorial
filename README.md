@@ -36,6 +36,7 @@ pip install -r requirements.txt
 
 ## Tutorial Category
 The descriptions for tutorial is in categories directory 
-1. Layout
+1. [Layout](https://github.com/kim-misol/flask_tutorial/blob/master/categories/Layout.md)
 2. Application Setup
 3. Define and Access the Database
+4. Blueprints and Views
