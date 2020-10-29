@@ -25,3 +25,5 @@ htmlcov/
 
 instance/
 venv/
+flask-quill/
+flaskr/__pycache__/
