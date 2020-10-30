@@ -27,3 +27,4 @@ instance/
 venv/
 flask-quill/
 flaskr/__pycache__/
+flaskr/flask-quill/
