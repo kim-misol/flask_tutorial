@@ -28,12 +28,23 @@ def create_app(test_config=None):
     # a simple page that says hello
     @app.route('/')
     def hello():
-        return 'Hello, World!'
+        text_editor = """<p>text editor here</p>
+        <div id="editor-container" style="height: 375px;"></div>
+        """
 
+        return text_editor
+
+    # define and access the database
     from . import db
     db.init_app(app)
 
+    # auth blueprint
     from . import auth
     app.register_blueprint(auth.bp)
+
+    # blog blueprint
+    from . import blog
+    app.register_blueprint(blog.bp)
+    app.add_url_rule('/', endpoint='index')
 
     return app
