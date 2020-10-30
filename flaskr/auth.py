@@ -22,20 +22,23 @@ def register():
         elif not password:
             error = 'Password is required.'
         elif db.execute(
-                'SELECT id FROM user WHERE username = ?', (username,)
+                f'SELECT id FROM user WHERE username = {username}'
         ).fetchone() is not None:
-            error = 'User {} is already registered.'.format(username)
+            error = f'User {username} is already registered.'
 
         if error is None:
             db.execute(
-                'INSERT INTO user (username, password) VALUES (?, ?)',
-                (username, generate_password_hash(password))
+                f'INSERT INTO user (username, password) VALUES ({username}, {generate_password_hash(password)})'
             )
             db.commit()
+            # redirect() current request connection reconnects to specific address
+            # a 주소에서 데이터를 처리고 b 주소에서 결과를 보여줄 때 주로 이용
+            # b 주소가 변경되어도 수정할 코드를 줄이기 위해 dynamic coding - url_for() 사용
             return redirect(url_for('auth.login'))
 
         flash(error)
 
+    # render_template() render template
     return render_template('auth/register.html')
 
 
@@ -57,6 +60,7 @@ def login():
 
         if error is None:
             session.clear()
+            # data is stored in a cookie that is sent to the browser
             session['user_id'] = user['id']
             return redirect(url_for('index'))
 
