@@ -16,7 +16,7 @@ In web applications this connection is typically tied to the request.
 It is created at some point when handling a request, and closed before the response is sent.
 
 flaskr/`db.py`
-```
+```python
 import sqlite3
 
 import click
@@ -65,7 +65,7 @@ Flaskr will store users in the user table, and posts in the post table.
 Create a file with the SQL commands needed to create empty tables:
 
 flaskr/`schema.sql`
-```
+~~~sql
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS post;
 
@@ -83,12 +83,12 @@ CREATE TABLE post (
   body TEXT NOT NULL,
   FOREIGN KEY (author_id) REFERENCES user (id)
 );
-```
+~~~
 
 Add the Python functions that will run these SQL commands to the db.py file:
 
 flaskr/`db.py`
-```
+```python
 def init_db():
     db = get_db()
 
@@ -118,7 +118,7 @@ However, since you’re using a factory function, that instance isn’t availabl
 Instead, write a function that takes an application and does the registration.
 
 flaskr/`db.py`
-```
+```python
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
@@ -129,7 +129,7 @@ def init_app(app):
 
 Import and call this function from the factory. Place the new code at the end of the factory function before returning the app.
 flaskr/`__init__.py`
-```
+```python
 def create_app():
     app = ...
     # existing code omitted
