@@ -16,7 +16,7 @@ $ mkdir flaskr
 ```
 
 flaskr/`__init__.py`
-```
+```python
 import os
 
 from flask import Flask
