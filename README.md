@@ -40,3 +40,10 @@ The descriptions for tutorial is in categories directory
 2. Application Setup
 3. Define and Access the Database
 4. Blueprints and Views
+5. templates
+6. Static Files
+7. blog blueprint
+
+8. make the project installable
+9. test coverage
+10. deploy to production
