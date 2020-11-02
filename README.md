@@ -36,7 +36,7 @@ pip install -r requirements.txt
 ```
 
 ## Tutorial Category
-The descriptions for Flask tutorials is in tutorials_flask directory 
+The descriptions for **[Flask](https://flask.palletsprojects.com/en/1.1.x/tutorial/)** tutorials is in **tutorials_flask** directory 
 1. [Layout](https://github.com/kim-misol/flask_tutorial/blob/master/categories/Layout.md)
 2. [Application Setup](https://github.com/kim-misol/flask_tutorial/blob/master/categories/ApplicationSetup.md)
 3. [Define and Access the Database](https://github.com/kim-misol/flask_tutorial/blob/master/categories/DefineAndAccessDatabase.md)
@@ -49,4 +49,8 @@ The descriptions for Flask tutorials is in tutorials_flask directory
 9. [test coverage](https://github.com/kim-misol/flask_tutorial/blob/master/categories/TestCoverage.md)
 10. [deploy to production](https://github.com/kim-misol/flask_tutorial/blob/master/categories/DeploytoProduction.md)
 ___
-The descriptions for Postgresql tutorials is in tutorials_psql directory
+The descriptions for **[Postgresql](https://www.postgresql.org/docs/)** tutorials is in **tutorials_psql** directory
+1. Installation
+2. Architectural Fundamentals
+3. Creating a Database
+4. Accessing a Database
