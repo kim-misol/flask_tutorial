@@ -3,6 +3,7 @@ This tutorial will walk you through creating a basic blog application called Fla
 
 ## Requirements
  - Python 3.8+
+ - Postgresql 12.4+
  
 ## Clone the sources
 
@@ -35,15 +36,17 @@ pip install -r requirements.txt
 ```
 
 ## Tutorial Category
-The descriptions for tutorial is in categories directory 
+The descriptions for Flask tutorials is in tutorials_flask directory 
 1. [Layout](https://github.com/kim-misol/flask_tutorial/blob/master/categories/Layout.md)
-2. Application Setup
-3. Define and Access the Database
-4. Blueprints and Views
-5. templates
-6. Static Files
-7. blog blueprint
+2. [Application Setup](https://github.com/kim-misol/flask_tutorial/blob/master/categories/ApplicationSetup.md)
+3. [Define and Access the Database](https://github.com/kim-misol/flask_tutorial/blob/master/categories/DefineAndAccessDatabase.md)
+4. [Blueprints and Views](https://github.com/kim-misol/flask_tutorial/blob/master/categories/BlueprintsAndViews.md)
+5. [templates](https://github.com/kim-misol/flask_tutorial/blob/master/categories/templates.md)
+6. [Static Files](https://github.com/kim-misol/flask_tutorial/blob/master/categories/StaticFiles.md)
+7. [blog blueprint](https://github.com/kim-misol/flask_tutorial/blob/master/categories/BlogBlueprint.md)
 
-8. make the project installable
-9. test coverage
-10. deploy to production
+8. [make the project installable](https://github.com/kim-misol/flask_tutorial/blob/master/categories/ProjectInstallable.md)
+9. [test coverage](https://github.com/kim-misol/flask_tutorial/blob/master/categories/TestCoverage.md)
+10. [deploy to production](https://github.com/kim-misol/flask_tutorial/blob/master/categories/DeploytoProduction.md)
+___
+The descriptions for Postgresql tutorials is in tutorials_psql directory
