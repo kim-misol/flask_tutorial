@@ -1,5 +1,3 @@
-PostgresqlCmd.md
-
 # Command list 
 | | |
 |---|---|
