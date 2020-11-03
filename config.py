@@ -13,8 +13,8 @@ class ProductionConfig(Config):
 
 
 class DevelopmentConfig(Config):
-    SQLALCHEMY_ECHO = True
     DEBUG = True
+    SQLALCHEMY_ECHO = True
 
 
 class TestingConfig(Config):
