@@ -54,3 +54,4 @@ The descriptions for **[Postgresql](https://www.postgresql.org/docs/)** tutorial
 2. Architectural Fundamentals
 3. Creating a Database
 4. Accessing a Database
+5. The SQL Language
