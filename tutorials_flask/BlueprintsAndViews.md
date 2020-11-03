@@ -86,7 +86,7 @@ def register():
 
         flash(error)
 
-    return render_template('auth/register.html')
+    return render_template('auth/signup.html')
 ```
 Here’s what the register view function is doing:
 
