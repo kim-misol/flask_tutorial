@@ -28,11 +28,13 @@
 
 {% block body %}
 <!-- Create the editor container -->
-  <form class="form-post" action="{{ url_for('auth.login') }}" method="post">
+  <form class="form-post" action="{{ url_for('.create') }}" method="post">
       {{form.hidden_tag()}}
-  <div id="editor-container">
-    {{ form.content(class="form-control", placeholder="type...") }}
-  </div>
+
+      {{ form.title(class="form-control", placeholder="title") }}
+      <div id="editor-container">
+        {{ form.content(class="form-control", placeholder="type...") }}
+      </div>
   {{ form.submit(class="btn btn-block btn-lg btn-primary") }}
   </form>
 {% endblock %}
