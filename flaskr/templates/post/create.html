@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Post {% endblock %}
+{% block title %} Post - 수정 {% endblock %}
 {% block head %}
     <!-- Main Quill library -->
     <script src="//cdn.quilljs.com/1.0.0/quill.js"></script>
@@ -28,9 +28,11 @@
 
 {% block body %}
 <!-- Create the editor container -->
-<form class="form-post" action="{{ url_for('auth.login') }}" method="post">
-<div id="editor-container">
-</div>
-    <button type="submit" class="button mt-4">Submit</button>
-</form>
+  <form class="form-post" action="{{ url_for('auth.login') }}" method="post">
+      {{form.hidden_tag()}}
+  <div id="editor-container">
+    {{ form.content(class="form-control", placeholder="type...") }}
+  </div>
+  {{ form.submit(class="btn btn-block btn-lg btn-primary") }}
+  </form>
 {% endblock %}
