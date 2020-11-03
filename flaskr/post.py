@@ -28,9 +28,9 @@ def index():
 def create():
     form = PostEditForm()
     if form.validate_on_submit():
-        print(form.content)
         if request.method == 'POST':
-            title = request.form['content']
+            content = form.content
+            # title = request.form['content']
             # body = request.form['body']
             # error = None
             #
@@ -47,7 +47,7 @@ def create():
             #         (title, body, g.user['id'])
             #     )
             #     db.commit()
-        return redirect(url_for('post.index'))
+        return redirect(url_for('index'))
 
     return render_template('post/create.html', form=form)
 
