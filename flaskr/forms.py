@@ -23,10 +23,11 @@ class LoginForm(FlaskForm):
 
 class SignUpForm(FlaskForm):
     email = EmailField('Email', validators=[DataRequired(), Email()])
+    username = StringField('Email address', validators=[DataRequired()], render_kw={'autofocus': True})
     password = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
-    name = StringField('Name', validators=[DataRequired()])
-    nickname = StringField('Nickname', validators=[DataRequired()])
     submit = SubmitField('Submit')
+    # name = StringField('Name', validators=[DataRequired()])
+    # nickname = StringField('Nickname', validators=[DataRequired()])
 
 
 class Div:
