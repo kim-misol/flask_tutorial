@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %} Post - 수정 {% endblock %}
+{% block head %}
+    <!-- Main Quill library -->
+    <script src="//cdn.quilljs.com/1.0.0/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.0.0/quill.min.js"></script>
+    <!-- Theme included stylesheets -->
+    <link href="//cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.0.0/quill.bubble.css" rel="stylesheet">
+    <style>
+    #editor-container {
+      height: 720px;
+    }
+    .button {
+      background-color: #555555; /* black */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+<!-- Create the editor container -->
+  <form class="form-post" action="{{ url_for('auth.login') }}" method="post">
+      {{form.hidden_tag()}}
+  <div id="editor-container">
+    {{ form.content(class="form-control", placeholder="type...") }}
+  </div>
+  {{ form.submit(class="btn btn-block btn-lg btn-primary") }}
+  </form>
+{% endblock %}

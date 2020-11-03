@@ -3,3 +3,5 @@ click~=7.1.2
 Werkzeug~=1.0.1
 wtforms
 sqlalchemy
+flask_wtf
+email-validator==1.0.5
