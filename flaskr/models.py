@@ -36,7 +36,7 @@ class Post(db.Model):
     content = Column(Text)
     created_at = Column(DateTime(timezone=True))
     createdAt = synonym('created_at')
-    user_id = Column(Text, ForeignKey('users.id'), index=True)
+    user_id = Column(Integer, ForeignKey('users.id'), index=True)
     userId = synonym('user_id')
 
 
