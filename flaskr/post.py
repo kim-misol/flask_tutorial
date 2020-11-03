@@ -29,13 +29,12 @@ def create():
     form = PostEditForm()
     if form.validate_on_submit():
         if request.method == 'POST':
+            title = form.title
             content = form.content
-            # title = request.form['content']
-            # body = request.form['body']
-            # error = None
-            #
-            # if not title:
-            #     error = 'Title is required.'
+            error = None
+
+            if not title:
+                error = 'Title is required.'
             #
             # if error is not None:
             #     flash(error)
