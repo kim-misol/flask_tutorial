@@ -53,7 +53,7 @@ class PostEditForm(FlaskForm):
     #     ('save', u"Save"),
     #     ('draft', u"Save (Private)"),
     # ]
-    # title = StringField(u"Title")
+    title = StringField(u"Title")
     content = StringField(u"Content")
     submit = SubmitField('Submit')
     # content_preview = StringField(u"Content preview")
