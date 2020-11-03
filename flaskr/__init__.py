@@ -1,5 +1,10 @@
 import os
-
+from flask_bcrypt import Bcrypt
+from flask_crontab import Crontab
+from flask_login import LoginManager
+from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
+from flask_migrate import Migrate
 from flask import Flask, request, render_template
 
 
@@ -26,8 +31,20 @@ def create_app(test_config=None):
         pass
 
     # define and access the database
-    from . import db
+    # DB - sqlite
+    # from . import db
+    # db.init_app(app)
+    # DB - postgresql
     db.init_app(app)
+    from .models import init_db_command, reset_db_command
+    app.cli.add_command(init_db_command)
+    app.cli.add_command(reset_db_command)
+
+    crontab.init_app(app)
+    # login_manager.init_app(app)
+    bcrypt.init_app(app)
+    migrate.init_app(app, db)
+    ma.init_app(app)
 
     # post blueprint
     from . import post
@@ -44,3 +61,11 @@ def create_app(test_config=None):
     app.add_url_rule('/', endpoint='index')
 
     return app
+
+
+db = SQLAlchemy()
+crontab = Crontab()
+login_manager = LoginManager()
+bcrypt = Bcrypt()
+migrate = Migrate()
+ma = Marshmallow()
