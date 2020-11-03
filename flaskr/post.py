@@ -3,16 +3,18 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 from flaskr.auth import login_required
-from flaskr.db import get_db
+# from flaskr.db import get_db
 from .forms import PostEditForm
-
+from .models import Post, User
 
 bp = Blueprint('', __name__, url_prefix='/')
 
 
 @bp.route('/')
 def index():
-    db = get_db()
+    post = Post.query.all()
+
+    # db = get_db()
     # posts = db.execute(
     #     'SELECT p.id, title, body, created, author_id, username'
     #     ' FROM post p JOIN user u ON p.author_id = u.id'
@@ -35,7 +37,7 @@ def create():
 
             if not title:
                 error = 'Title is required.'
-            #
+
             # if error is not None:
             #     flash(error)
             # else:
