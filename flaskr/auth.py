@@ -9,8 +9,8 @@ from .forms import LoginForm, SignUpForm
 from .models import User
 from . import crontab, db, login_manager
 
-bp = Blueprint('auth', __name__, url_prefix='/auth')
-login_manager.login_view = "auth.login"
+bp = Blueprint('auth', __name__, url_prefix='/')
+login_manager.login_view = "login"
 
 
 @login_manager.user_loader
@@ -26,7 +26,7 @@ def signup():
                          username=form.username.data)
         db.session.add(new_admin)
         db.session.commit()
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('login'))
 
     return render_template('auth/signup.html', form=form)
 
@@ -69,7 +69,7 @@ def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('login'))
 
         return view(**kwargs)
 
