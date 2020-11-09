@@ -40,6 +40,7 @@ Drop and Create all tables
 ```bash
 export FLASK_APP=flaskr
 flask reset-db
+flask init-db
 ```
 
 ## Tutorial Category
