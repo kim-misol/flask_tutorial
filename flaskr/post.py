@@ -7,8 +7,9 @@ from .forms import PostEditForm, PostCreateForm
 from .models import Post, User
 from . import crontab, db, login_manager
 from sqlalchemy import func, or_
+import json
 
-bp = Blueprint('', __name__, url_prefix='/')
+bp = Blueprint('post', __name__, url_prefix='/')
 login_manager.login_view = "login"
 
 
@@ -25,14 +26,17 @@ def get_posts():
 def create():
     form = PostEditForm()
     if form.validate_on_submit():
-        title = form.title
-        # content = form.content
-        data = request.get_json()
-        # request.values
-        # request.form.get('title')
-        content = data.get('content')
-        # error = None
-        error = "test"
+        data = request.form
+        title = data['title']
+        content = data['content']
+        content_preview = data['content_preview']
+        # attachment = data['attachment']
+        attachment = ""
+        save_type = data['save_type']
+        content_json = data['content_json']
+        content_json = json.loads(content_json)
+
+        error = None
 
         if not title:
             error = 'Title is required.'
@@ -43,16 +47,16 @@ def create():
             flash(error)
             return render_template('post/create.html', form=form)
         else:
-            import datetime
-
-            now = datetime.datetime.now()
+            from datetime import datetime
+            now = datetime.now()
             created_at = now.strftime("%Y-%m-%d %H:%M:%S")
             user_id = current_user.id
-            new_post = Post(title=form.title.data, content=content, created_at=created_at, user_id=user_id)
+            new_post = Post(title=title, content=content, content_json=content_json,
+                            content_preview=content_preview, attachment=attachment, save_type=save_type,
+                            created_at=created_at, modified_at=created_at, user_id=user_id)
             db.session.add(new_post)
             db.session.commit()
-
-            return redirect(url_for('index'))
+            return redirect(url_for('.index'))
 
     return render_template('post/create.html', form=form)
 
