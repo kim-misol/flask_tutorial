@@ -11,7 +11,7 @@
 
 {% block body %}
 <!-- Create the editor container -->
-  <form class="form-post" enctype="multipart/form-data"  action="{{ url_for('.create') }}" method="post">
+  <form class="form-post">
     {{form.hidden_tag()}}
 
     {{ form.title(class="form-control", id="postContent", placeholder="Title") }}
