@@ -59,4 +59,8 @@ class PostEditForm(FlaskForm):
     submit = SubmitField('Submit')
     # content_preview = StringField(u"Content preview")
     # file = FileField("Attachment")
-    # language = SelectField("Save As", choices=SAVELIST)
+    # save_type = SelectField("Save As", choices=SAVELIST)
+
+
+class PostCreateForm(FlaskForm):
+    submit = SubmitField('Create New Post')

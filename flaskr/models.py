@@ -38,6 +38,7 @@ class Post(db.Model):
     createdAt = synonym('created_at')
     user_id = Column(Integer, ForeignKey('users.id'), index=True)
     userId = synonym('user_id')
+    # modified_at content_preview attachment save_type
 
 
 def create():

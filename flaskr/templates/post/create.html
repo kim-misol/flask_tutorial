@@ -28,13 +28,13 @@
 
 {% block body %}
 <!-- Create the editor container -->
-  <form class="form-post" action="{{ url_for('.create') }}" method="post">
-      {{form.hidden_tag()}}
+  <form class="form-post" enctype="multipart/form-data"  action="{{ url_for('.create') }}" method="post">
+    {{form.hidden_tag()}}
 
-      {{ form.title(class="form-control", placeholder="title") }}
-      <div id="editor-container">
-        {{ form.content(class="form-control", placeholder="type...") }}
-      </div>
-  {{ form.submit(class="btn btn-block btn-lg btn-primary") }}
+    {{ form.title(class="form-control", id="postContent", placeholder="Title") }}
+    <div id="editor-container">
+    {{ form.content(class="form-control", placeholder="Type...") }}
+    </div>
+    {{ form.submit(class="btn btn-block btn-lg btn-primary create-post") }}
   </form>
 {% endblock %}
