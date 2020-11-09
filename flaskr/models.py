@@ -1,6 +1,6 @@
 from flaskr import db, bcrypt, ma
 from sqlalchemy import func, cast, Column, Integer, Text, DateTime, ForeignKey, String, Boolean, ARRAY, inspect, \
-    Unicode, select, case, Enum
+    Unicode, select, case, Enum, JSON
 from flask_login import UserMixin
 from sqlalchemy.orm import relationship, backref, synonym
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -34,11 +34,16 @@ class Post(db.Model):
     id = Column(Integer, primary_key=True)
     title = Column(Text)
     content = Column(Text)
+    content_json = Column(JSON)
+    content_preview = Column(Text)
+    attachment = Column(Text)
+    save_type = Column(Text)
     created_at = Column(DateTime(timezone=True))
     createdAt = synonym('created_at')
+    modified_at = Column(DateTime(timezone=True))
+    modifiedAt = synonym('modified_at')
     user_id = Column(Integer, ForeignKey('users.id'), index=True)
     userId = synonym('user_id')
-    # modified_at content_preview attachment save_type
 
 
 def create():

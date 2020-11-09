@@ -18,7 +18,7 @@ var toolbarOptions = [
   ['clean']                                         // remove formatting button
 ];
 
-let quill = new Quill('#editor-container', {
+let quill = new Quill('#editorContainer', {
   modules: {
     toolbar: toolbarOptions
   },
@@ -27,6 +27,19 @@ let quill = new Quill('#editor-container', {
 });
 
 document.querySelector('.create-post').addEventListener('click', createPostEvent);
+//document.querySelector('.daft-post').addEventListener('click', draftPostEvent);
+
+function getData(save_type){
+    let form = document.querySelector('form');
+    let formData = new FormData(form);
+    let delta = quill.getContents();
+    let text = quill.getText();
+    formData.append('content_json', JSON.stringify(delta));
+    formData.append('content', text);
+    formData.append('save_type', save_type);
+
+    return formData
+}
 
 function createPostEvent(event) {
     let form = document.querySelector('form');
@@ -35,7 +48,25 @@ function createPostEvent(event) {
     let text = quill.getText();
     formData.append('content_json', JSON.stringify(delta));
     formData.append('content', text);
+    formData.append('save_type', 'save');
+//    save_type = 'save';
+//    formData = getData(save_type);
 
+    fetch(window.createPostUrl, {
+      method: 'POST', // or 'PUT'
+      body: formData
+    }).then(res => res.json())
+    .then(response => console.log('Success:', JSON.stringify(response)))
+    .catch(error => console.error('Error:', error));
+}
+
+function draftPostEvent(event) {
+    save_type = 'draft';
+    formData = getData(save_type);
+    console.log(save_type)
+    for (var value of formData.values()) {
+       console.log(value);
+    }
     fetch(window.createPostUrl, {
       method: 'POST', // or 'PUT'
       body: formData
