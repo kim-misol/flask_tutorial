@@ -7,29 +7,6 @@
     <!-- Theme included stylesheets -->
     <link href="//cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
     <link href="//cdn.quilljs.com/1.0.0/quill.bubble.css" rel="stylesheet">
-    <style>
-    #editor-container {
-      height: 720px;
-    }
-    .button {
-      background-color: #555555; /* black */
-      border: none;
-      color: white;
-      padding: 8px 15px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      float:right;
-    }
-    .title {
-        font-size: 14px;
-        font-weight:: bold;
-    }
-    .content {
-    font-size: 12px;
-    }
-    </style>
 {% endblock %}
 
 {% block body %}
@@ -39,10 +16,10 @@
 <div class="row mx-1 posts">
     {% if posts %}
     {% for post in posts %}
-        <div class="mt-4 ml-2 title">
+        <div class="mt-4 ml-2 post_title">
         {{ post.title }}
         </div>
-        <div class="mt-2 ml-2 content">
+        <div class="mt-2 ml-2 post_content">
         {{ post.content }}
         </div>
 </div>
