@@ -25,24 +25,28 @@ nav ul li a, nav ul li span, header .action { display: block; padding: 0.5rem; }
 input.danger { color: #cc2f2e; }
 input[type=submit] { align-self: start; min-width: 10em; }
 
-#editor-container {
+#editorContainer {
       height: 720px;
     }
-    .button {
-      background-color: #555555; /* black */
-      border: none;
-      color: white;
-      padding: 8px 15px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      float:right;
-    }
-.post_title {
+#btnCreatePost {
+  background-color: #555555; /* black */
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  float:right;
+}
+#postTitle {
     font-size: 14px;
     font-weight:: bold;
 }
-.post_content {
+#postContent {
 font-size: 12px;
 }
+#postSaveType {
+width: 250px;
+}
+#msg {text-align:center}
