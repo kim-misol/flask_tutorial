@@ -35,13 +35,6 @@ function createPostEvent(event) {
     let text = quill.getText();
     formData.append('content_json', JSON.stringify(delta));
     formData.append('content', text);
-    console.log(JSON.stringify(delta))
-    console.log(formData.content_json)
-    console.log(typeof(formData))
-
-    for (var value of formData.values()) {
-      console.log(value);
-    }
 
     fetch(window.createPostUrl, {
       method: 'POST', // or 'PUT'
