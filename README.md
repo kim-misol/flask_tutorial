@@ -35,6 +35,13 @@ Install required packages in requirements.txt using pip.
 pip install -r requirements.txt
 ```
 
+## How to Run
+Drop and Create all tables
+```bash
+export FLASK_APP=flaskr
+flask reset-db
+```
+
 ## Tutorial Category
 The descriptions for **[Flask](https://flask.palletsprojects.com/en/1.1.x/tutorial/)** tutorials is in **tutorials_flask** directory 
 1. [Layout](https://github.com/kim-misol/flask_tutorial/blob/master/categories/Layout.md)
