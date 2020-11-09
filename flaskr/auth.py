@@ -26,7 +26,7 @@ def signup():
                          username=form.username.data)
         db.session.add(new_admin)
         db.session.commit()
-        return redirect(url_for('login'))
+        return redirect(url_for('.login'))
 
     return render_template('auth/signup.html', form=form)
 
@@ -62,7 +62,7 @@ def login():
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('.index'))
 
 
 def login_required(view):
