@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>{% block title %}{% endblock %}</title>
     <script type="text/javascript">
-        window.createPostUrl = "{{ url_for('.create') }}";
+        window.createPostUrl = "{{ url_for('post.create') }}";
     </script>
     {% block head %}{% endblock %}
   </head>
   <body>
   <nav>
-    <h1>Flaskr</h1>
-    <ul>
+<!--    <h1>Flaskr</h1>-->
+    <ul style="float:right">
       {% if g.user %}
         <li><span>{{ g.user['username'] }}</span>
         <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
