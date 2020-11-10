@@ -13,15 +13,26 @@ bp = Blueprint('post', __name__, url_prefix='/')
 login_manager.login_view = "login"
 
 
-@bp.route('/', methods=['GET'])
-@bp.route('/<int:page>', methods=['GET'])
+@bp.route('/posts', methods=['GET'])
 @login_required
 def get_posts():
     posts = Post.query.all()
     return render_template('post/index.html', posts=posts)
 
 
-@bp.route('/create', methods=('GET', 'POST'))
+@bp.route('/posts/<int:post_id>', methods=['GET'])
+@login_required
+def load(post_id):
+    # if click post, it needs to be passed correct post_id (currently, it's hard coded)
+    print(f"post_id: {post_id}")
+    post = Post.query.filter_by(id=post_id).first_or_404()
+    if post is None:
+        return redirect(url_for('.get_posts'))
+
+    return render_template('post/index.html', post=post)
+
+
+@bp.route('/posts/new', methods=('GET', 'POST'))
 @login_required
 def create():
     form = PostEditForm()
@@ -56,7 +67,7 @@ def create():
                             created_at=created_at, modified_at=created_at, user_id=user_id)
             db.session.add(new_post)
             db.session.commit()
-            return redirect(url_for('.index'))
+            return redirect(url_for('.get_posts'))
 
     return render_template('post/create.html', form=form)
 
