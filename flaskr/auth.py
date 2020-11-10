@@ -41,8 +41,7 @@ def login():
                 login_user(user, remember=True)
             else:
                 login_user(user)
-
-            return redirect(url_for('index'))
+            return redirect(url_for('get_posts'))
 
     return render_template('auth/login.html', form=form)
 
@@ -62,7 +61,7 @@ def login():
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('.index'))
+    return redirect(url_for('login'))
 
 
 def login_required(view):
