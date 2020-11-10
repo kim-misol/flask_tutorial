@@ -10,21 +10,33 @@
 {% endblock %}
 
 {% block body %}
+{% if posts %}
 <a class="action mt-2 mr-2" id="btnCreatePost" href="{{ url_for('.create') }}">
     Create Post
 </a>
+{% endif %}
+{% if posts %}
 <div class="row mx-1 posts">
-    {% if posts %}
     {% for post in posts %}
+    <a class="action" style="text-decoration: none;color:#555555" href="{{ url_for('post.load', post_id=2)}}">
         <div class="mt-4 ml-2" id="postTitle">
         {{ post.title }}
         </div>
         <div class="mt-2 ml-4" id="postContent">
         {{ post.content }}
         </div>
+    </a>
+</div>
     {% endfor %}
+    {% elif post %}
+        {{ post.title }}
+        {{ post.content_json }}
+        {{ post.content_preview }}
+        {{ post.save_type }}
+        {{ post.created_at }}
+        {{ post.user_id }}
     {% else %}
     <p class="mt-4" id="msg">Posts will be shown</p>
     {% endif %}
-</div>
+
 {% endblock %}
