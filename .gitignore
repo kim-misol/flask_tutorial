@@ -28,4 +28,5 @@ instance/
 venv/
 flask-quill/
 flaskr/__pycache__/
+uploads/
 test.py
