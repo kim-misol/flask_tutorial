@@ -26,7 +26,7 @@ def signup():
                          username=form.username.data)
         db.session.add(new_admin)
         db.session.commit()
-        return redirect(url_for('.login'))
+        return redirect(url_for('auth.login'))
 
     return render_template('auth/signup.html', form=form)
 
@@ -68,7 +68,7 @@ def login_required(view):
     @wraps(view)
     def wrap(*args, **kwargs):
         if current_user is None:
-            return redirect(url_for('login'))
+            return redirect(url_for('auth.login'))
 
         return view(*args, **kwargs)
     return wrap
