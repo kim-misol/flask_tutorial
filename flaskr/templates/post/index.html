@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block body %}
-{% if posts %}
+{% if not post %}
 <a class="action mt-2 mr-2" id="btnCreatePost" href="{{ url_for('.create') }}">
     Create Post
 </a>
