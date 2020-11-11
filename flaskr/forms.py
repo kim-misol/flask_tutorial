@@ -51,12 +51,17 @@ class WysiwygField(fields.StringField):
 
 class PostEditForm(FlaskForm):
     # SAVELIST = [
-    #     ('save', u"Save"),
-    #     ('draft', u"Save (Private)"),
+    #     ('save', u"Save As Public"),
+    #     ('draft', u"Save As Private"),
     # ]
     title = StringField(u"Title")
     content = StringField(u"Content")
-    submit = SubmitField('Submit')
-    # content_preview = StringField(u"Content preview")
-    # file = FileField("Attachment")
-    # language = SelectField("Save As", choices=SAVELIST)
+    content_preview = StringField(u"Content preview")
+    # attachment = FileField("Attachment")
+    # save_type = SelectField("Save As", choices=SAVELIST)
+    save = SubmitField('Save')
+    save_draft = SubmitField('Save Draft')
+
+
+class PostCreateForm(FlaskForm):
+    submit = SubmitField('Create New Post')

@@ -1,115 +1,104 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify, make_response
 )
-from werkzeug.exceptions import abort
 from flaskr.auth import login_required
-# from flaskr.db import get_db
-from .forms import PostEditForm
+from flask_login import current_user
+from .forms import PostEditForm, PostCreateForm
 from .models import Post, User
+from . import crontab, db, login_manager
+from sqlalchemy import func, or_
+import json
+# to save img file
+import uuid
+from PIL import Image
+from io import BytesIO
+import re, base64
 
-bp = Blueprint('', __name__, url_prefix='/')
-
-
-@bp.route('/')
-def index():
-    post = Post.query.all()
-
-    # db = get_db()
-    # posts = db.execute(
-    #     'SELECT p.id, title, body, created, author_id, username'
-    #     ' FROM post p JOIN user u ON p.author_id = u.id'
-    #     ' ORDER BY created DESC'
-    # ).fetchall()
-
-    # return render_template('post/index.html', posts=posts)
-    return render_template('post/index.html')
+bp = Blueprint('post', __name__, url_prefix='/')
+login_manager.login_view = "login"
 
 
-@bp.route('/create', methods=('GET', 'POST'))
+@bp.route('/posts', methods=['GET'])
 @login_required
-def create():
+def get_posts():
+    posts = Post.query.all()
+    return render_template('post/index.html', posts=posts)
+
+@bp.route('/posts', methods=['POST'])
+@login_required
+def create_post():
     form = PostEditForm()
     if form.validate_on_submit():
-        if request.method == 'POST':
-            title = form.title
-            content = form.content
-            error = None
+        data = request.form
+        title = form.title.data
+        content = data['content']
+        content_preview = data['content_preview']
+        # attachment = data['attachment']
+        attachment = ""
+        save_type = data['save_type']
+        content_json = data['content_json']
+        content_json = json.loads(content_json)
+        # check if img is in content_json
+        for item in content_json['ops']:
+            insert = item['insert']
+            # try except
+            if isinstance(insert, dict) and 'image' in insert:
+                base64_data = insert['image']
+                file_url = saveImgFromBase64(base64_data)
+                insert['image'] = file_url
 
-            if not title:
-                error = 'Title is required.'
-
-            # if error is not None:
-            #     flash(error)
-            # else:
-            #     db = get_db()
-            #     db.execute(
-            #         'INSERT INTO post (title, body, author_id)'
-            #         ' VALUES (?, ?, ?)',
-            #         (title, body, g.user['id'])
-            #     )
-            #     db.commit()
-        return redirect(url_for('index'))
-
-    return render_template('post/create.html', form=form)
-
-
-def get_post(id, check_author=True):
-    post = get_db().execute(
-        'SELECT p.id, title, body, created, author_id, username'
-        ' FROM post p JOIN user u ON p.author_id = u.id'
-        ' WHERE p.id = ?',
-        (id,)
-    ).fetchone()
-
-    if post is None:
-        # abort() will raise a special exception that returns an HTTP status code
-        # an optional message to show with the error
-        #  404 means 'Not Found'
-        abort(404, "Post id {0} doesn't exist.".format(id))
-
-    # the function can be used to get a post without checking the author
-    # to show an individual post on a page, not modifying the post.
-    if check_author and post['author_id'] != g.user['id']:
-        # 403 means 'Forbidden'
-        abort(403)
-
-    return post
-
-
-# if don’t specify int: and instead do <id>, it will be a string.
-@bp.route('/<int:id>/update', methods=('GET', 'POST'))
-@login_required
-def update(id):
-    post = get_post(id)
-
-    if request.method == 'POST':
-        title = request.form['title']
-        body = request.form['body']
         error = None
 
         if not title:
             error = 'Title is required.'
+        elif not content:
+            error = 'Content is required.'
 
         if error is not None:
             flash(error)
+            return render_template('post/create.html', form=form)
         else:
-            db = get_db()
-            db.execute(
-                'UPDATE post SET title = ?, body = ?'
-                ' WHERE id = ?',
-                (title, body, id)
-            )
-            db.commit()
-            return redirect(url_for('post.index'))
+            from datetime import datetime
+            now = datetime.now()
+            created_at = now.strftime("%Y-%m-%d %H:%M:%S")
+            user_id = current_user.id
+            new_post = Post(title=title, content=content, content_json=content_json,
+                            content_preview=content_preview, attachment=attachment, save_type=save_type,
+                            created_at=created_at, modified_at=created_at, user_id=user_id)
+            db.session.add(new_post)
+            db.session.commit()
+            return make_response(jsonify({'redirect': url_for('post.get_posts')}))
+    return make_response(jsonify({'error': 'failed to create a post'}))
 
-    return render_template('post/update.html', post=post)
 
-
-@bp.route('/<int:id>/delete', methods=('POST',))
+@bp.route('/posts/<int:post_id>', methods=['GET'])
 @login_required
-def delete(id):
-    get_post(id)
-    db = get_db()
-    db.execute('DELETE FROM post WHERE id = ?', (id,))
-    db.commit()
-    return redirect(url_for('post.index'))
+def load(post_id):
+    # if click post, it needs to be passed correct post_id (currently, it's hard coded)
+    print(f"post_id: {post_id}")
+    post = Post.query.filter_by(id=post_id).first_or_404()
+    if post is None:
+        return redirect(url_for('.get_posts'))
+
+    return render_template('post/index.html', post=post)
+
+
+def saveImgFromBase64(codec, image_path="dev/flask_tutorial/flaskr/uploads/"):
+    base64_data = re.sub('^data:image/.+;base64,', '', codec)
+    byte_data = base64.b64decode(base64_data)
+    image_data = BytesIO(byte_data)
+    img = Image.open(image_data)
+    random_filename = str(uuid.uuid4())
+    file_url = image_path + random_filename + '.png'
+    img.save(file_url, "PNG")
+    return file_url
+
+
+@bp.route('/posts/new', methods=('GET',))
+@login_required
+def create():
+    form = PostEditForm()
+
+    return render_template('post/create.html', form=form)
+
+

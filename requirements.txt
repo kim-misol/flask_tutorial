@@ -10,5 +10,7 @@ flask-login
 flask-wtf
 flask-sqlalchemy
 flask-marshmallow
+flask-migrate
 marshmallow-sqlalchemy
 psycopg2-binary
+Pillow
