@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>{% block title %}{% endblock %}</title>
     <script type="text/javascript">
-        window.createPostUrl = "{{ url_for('post.create') }}";
+        window.createPostUrl = "{{ url_for('post.create_post') }}";
     </script>
     {% block head %}{% endblock %}
   </head>

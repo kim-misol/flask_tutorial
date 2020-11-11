@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
+    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify, make_response
 )
 from flaskr.auth import login_required
 from flask_login import current_user
@@ -24,33 +24,9 @@ def get_posts():
     posts = Post.query.all()
     return render_template('post/index.html', posts=posts)
 
-
-@bp.route('/posts/<int:post_id>', methods=['GET'])
+@bp.route('/posts', methods=['POST'])
 @login_required
-def load(post_id):
-    # if click post, it needs to be passed correct post_id (currently, it's hard coded)
-    print(f"post_id: {post_id}")
-    post = Post.query.filter_by(id=post_id).first_or_404()
-    if post is None:
-        return redirect(url_for('.get_posts'))
-
-    return render_template('post/index.html', post=post)
-
-
-def saveImgFromBase64(codec, image_path="dev/flask_tutorial/flaskr/uploads/"):
-    base64_data = re.sub('^data:image/.+;base64,', '', codec)
-    byte_data = base64.b64decode(base64_data)
-    image_data = BytesIO(byte_data)
-    img = Image.open(image_data)
-    random_filename = str(uuid.uuid4())
-    file_url = image_path + random_filename + '.png'
-    img.save(file_url, "PNG")
-    return file_url
-
-
-@bp.route('/posts/new', methods=('GET', 'POST'))
-@login_required
-def create():
+def create_post():
     form = PostEditForm()
     if form.validate_on_submit():
         data = request.form
@@ -91,7 +67,37 @@ def create():
                             created_at=created_at, modified_at=created_at, user_id=user_id)
             db.session.add(new_post)
             db.session.commit()
-            return redirect(url_for('post.get_posts'))
+            return make_response(jsonify({'redirect': url_for('post.get_posts')}))
+    return make_response(jsonify({'error': 'failed to create a post'}))
+
+
+@bp.route('/posts/<int:post_id>', methods=['GET'])
+@login_required
+def load(post_id):
+    # if click post, it needs to be passed correct post_id (currently, it's hard coded)
+    print(f"post_id: {post_id}")
+    post = Post.query.filter_by(id=post_id).first_or_404()
+    if post is None:
+        return redirect(url_for('.get_posts'))
+
+    return render_template('post/index.html', post=post)
+
+
+def saveImgFromBase64(codec, image_path="dev/flask_tutorial/flaskr/uploads/"):
+    base64_data = re.sub('^data:image/.+;base64,', '', codec)
+    byte_data = base64.b64decode(base64_data)
+    image_data = BytesIO(byte_data)
+    img = Image.open(image_data)
+    random_filename = str(uuid.uuid4())
+    file_url = image_path + random_filename + '.png'
+    img.save(file_url, "PNG")
+    return file_url
+
+
+@bp.route('/posts/new', methods=('GET',))
+@login_required
+def create():
+    form = PostEditForm()
 
     return render_template('post/create.html', form=form)
 

@@ -55,8 +55,7 @@ function createPostEvent(event) {
     fetch(window.createPostUrl, {
       method: 'POST', // or 'PUT'
       body: formData
-    }).then(res => res.json())
-    .then(response => console.log('Success:', JSON.stringify(response)))
+    }).then(res => res.json().then(data => window.location = data.redirect))
     .catch(error => console.error('Error:', error));
 }
 
